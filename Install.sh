@@ -1,9 +1,12 @@
 #!/bin/bash
+
+# Kiểm tra xem script có được chạy với quyền root không
 if [[ $EUID -ne 0 ]]; then
    echo "This script needs to be run with root privileges" 
    exit 1
 fi
 
+# Hàm kiểm tra domain
 check_domain() {
     local domain=$1
     local server_ip=$(curl -s https://api.ipify.org)
@@ -16,6 +19,7 @@ check_domain() {
     fi
 }
 
+# Nhận input domain từ người dùng
 read -p "Enter your domain or subdomain: " DOMAIN
 
 # Kiểm tra domain
@@ -28,6 +32,7 @@ else
     exit 1
 fi
 
+# Sử dụng thư mục /home trực tiếp
 N8N_DIR="/home/n8n"
 
 # Cài đặt Docker và Docker Compose
@@ -93,5 +98,10 @@ chmod -R 755 $N8N_DIR
 cd $N8N_DIR
 docker-compose up -d
 
+# Thêm alias để cập nhật nhanh n8n
+echo "alias update-n8n='cd $N8N_DIR && docker-compose down && docker-compose pull && docker-compose up -d'" >> ~/.bashrc
+source ~/.bashrc
+
 echo "N8n đã được cài đặt và cấu hình với SSL sử dụng Caddy. Truy cập https://${DOMAIN} để sử dụng."
 echo "Các file cấu hình và dữ liệu được lưu trong $N8N_DIR"
+echo "Alias 'update-n8n' đã được thêm. Sử dụng lệnh 'update-n8n' để cập nhật n8n lên phiên bản mới nhất."
