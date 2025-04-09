@@ -1,7 +1,7 @@
-<h1>Hướng dẫn cài đặt n8n trên VPS</h1><br>
-#Chạy lệnh sau trên VPS: 
+<h1>Hướng dẫn cài đặt n8n trên VPS</h1>
+#Chạy lệnh sau trên VPS: <br>
 <code>curl -sSL https://github.com/hoaitranmkt/n8n/blob/main/Install.sh</code><br>
-#Điền Subdomain hoặc Domain của bạn vào
-#Khi cần update n8n thì chỉ cần chạy lệnh:
+#Điền Subdomain hoặc Domain của bạn vào<br>
+#Khi cần update n8n thì chỉ cần chạy lệnh:<br>
 <code>update-n8n</code>
 
