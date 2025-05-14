@@ -39,11 +39,16 @@ NGINX_DIR="$BASE_DIR/nginx"
 # Cài đặt Docker và Docker Compose
 echo "Cài đặt Docker và Docker Compose..."
 apt update && apt upgrade -y
-apt install -y apt-transport-https ca-certificates curl software-properties-common
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+apt install -y apt-transport-https ca-certificates curl software-properties-common gnupg
+
+# Thêm Docker GPG key và repository mà không cần dùng apt-key
+echo "Thêm Docker repository..."
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | tee /etc/apt/trusted.gpg.d/docker.asc
+echo "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/docker.asc] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# Cập nhật lại package list và cài đặt Docker, Docker Compose
 apt update
-apt install -y docker-ce docker-compose
+apt install -y docker-ce docker-ce-cli containerd.io docker-compose
 
 # Tạo các thư mục cho dịch vụ
 echo "Tạo thư mục cho các dịch vụ..."
